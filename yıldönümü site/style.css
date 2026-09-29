@@ -1,0 +1,390 @@
+:root {
+    --bg: #f7efe7;
+    --ink: #4d3028;
+    --accent: #9a4f55;
+    --paper: #fffaf1;
+    --gold: #c99a52;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--ink);
+}
+
+/* Ana alan */
+
+#app {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: var(--bg);
+    overflow: hidden;
+}
+
+.scene {
+    width: min(92vw, 720px);
+    text-align: center;
+}
+
+.hint {
+    font-family: system-ui, sans-serif;
+    font-size: 0.9rem;
+    opacity: 0.65;
+    margin-bottom: 22px;
+}
+
+/* Zarf */
+
+.envelope-wrap {
+    position: relative;
+    width: min(88vw, 430px);
+    aspect-ratio: 1.45;
+    margin: auto;
+    cursor: pointer;
+    perspective: 900px;
+    outline: none;
+}
+
+.envelope {
+    position: absolute;
+    inset: 0;
+
+    filter:
+        drop-shadow(
+            0 16px 18px rgba(75, 43, 30, 0.18)
+        );
+
+    transition:
+        transform 0.5s ease;
+}
+
+.envelope-wrap:hover .envelope,
+.envelope-wrap:focus-visible .envelope {
+    transform:
+        translateY(-6px)
+        rotate(-1deg);
+}
+
+/* Zarf gövdesi */
+
+.body {
+    position: absolute;
+    inset: 0;
+
+    background: #c97868;
+
+    border-radius: 10px;
+    border: 2px solid #a9574e;
+
+    overflow: hidden;
+}
+
+.body::before,
+.body::after {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    width: 52%;
+    height: 100%;
+
+    background: #d98a78;
+}
+
+.body::before {
+    left: 0;
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            0 100%
+        );
+}
+
+.body::after {
+    right: 0;
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            100% 100%
+        );
+}
+
+/* Zarf kapağı */
+
+.flap {
+    position: absolute;
+
+    z-index: 4;
+
+    left: 0;
+    right: 0;
+    top: 0;
+
+    height: 66%;
+
+    background: #e39a87;
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            50% 100%
+        );
+
+    transform-origin: top center;
+
+    transition:
+        transform 0.85s
+        cubic-bezier(0.2, 0.75, 0.25, 1);
+
+    border-top: 2px solid #a9574e;
+}
+
+/* Zarf üzerindeki yazı */
+
+.label {
+    position: absolute;
+
+    z-index: 7;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    width: 78%;
+
+    padding: 17px 14px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 250, 241, 0.94);
+
+    border: 1px solid #d2b48c;
+
+    box-shadow:
+        0 5px 14px
+        rgba(70, 38, 25, 0.12);
+
+    font-size:
+        clamp(17px, 4.4vw, 25px);
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    color: #63362e;
+
+    transition:
+        opacity 0.3s;
+}
+
+/* Mühür */
+
+.seal {
+    position: absolute;
+
+    z-index: 8;
+
+    left: 50%;
+    bottom: 9%;
+
+    transform:
+        translateX(-50%);
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    display: grid;
+    place-items: center;
+
+    background: #9a4f55;
+
+    color: #ffe8c6;
+
+    border: 3px solid #7e3c43;
+
+    font-size: 20px;
+
+    box-shadow:
+        0 3px 7px #713b3244;
+}
+
+/* Zarf açıldığında */
+
+.open .flap {
+    transform: rotateX(178deg);
+    z-index: 1;
+}
+
+.open .label,
+.open .seal {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.open .envelope {
+    transform: none;
+}
+
+/* Mektup */
+
+.letter {
+    display: none;
+
+    position: absolute;
+
+    inset: 4%;
+
+    z-index: 10;
+
+    background: var(--paper);
+
+    border: 1px solid #dfcaa8;
+
+    border-radius: 8px;
+
+    padding:
+        clamp(24px, 6vw, 48px);
+
+    box-shadow:
+        0 14px 30px
+        rgba(64, 39, 27, 0.2);
+
+    text-align: left;
+
+    overflow: auto;
+
+    max-height: 92%;
+
+    animation:
+        letterIn 0.9s ease forwards;
+}
+
+.open .letter {
+    display: block;
+}
+
+.letter h1 {
+    text-align: center;
+
+    font-size:
+        clamp(25px, 7vw, 40px);
+
+    margin:
+        0 0 22px;
+
+    color: #8d444d;
+}
+
+.letter p {
+    font-size:
+        clamp(16px, 4.3vw, 20px);
+
+    line-height: 1.8;
+
+    margin:
+        0 0 16px;
+}
+
+.signature {
+    text-align: right;
+
+    margin-top: 28px;
+
+    font-style: italic;
+
+    font-weight: 700;
+
+    color: #8d444d;
+}
+
+/* Kapat butonu */
+
+.close {
+    display: block;
+
+    margin:
+        20px auto 0;
+
+    border: 0;
+
+    border-radius: 999px;
+
+    padding:
+        12px 22px;
+
+    min-height: 44px;
+
+    background: #9a4f55;
+
+    color: white;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    font-family: system-ui, sans-serif;
+}
+
+.close:focus-visible,
+.envelope-wrap:focus-visible {
+    outline:
+        3px solid var(--gold);
+
+    outline-offset: 5px;
+}
+
+/* Mektup acilma animasyonu */
+
+@keyframes letterIn {
+
+    from {
+        opacity: 0;
+        transform:
+            translateY(18px)
+            scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            none;
+    }
+
+}
+
+/* Hareket azaltma */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .envelope,
+    .flap,
+    .letter {
+        transition: none;
+        animation: none;
+    }
+
+}
